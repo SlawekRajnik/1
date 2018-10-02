@@ -1,0 +1,149 @@
+#kreator postaci
+#rozdziel 30 punktów
+
+choice = None
+
+choice2 = None
+
+pkt = int(30)
+
+sila = int()
+
+zdrowie = int()
+
+madrosc = int()
+
+zrecznosc = int()
+
+name = None
+
+print(
+"""
+         > > > K R E A T O R  P O S T A C I < < <
+
+> Wybierz nazwę dla swojej postaci!
+> Rozdaj jej dostępne punkty!
+> Punkty możesz również odejmować, aby przydzielić je ponownie na inną
+  umiejętność
+> To w sumie wszystko, ale baw się dobrze !!!
+
+"""
+)
+
+name = input("Wybierz nazwę dla swojej postaci: ")
+
+while choice2 != "0":
+
+    print(
+    """
+    0 - przejdź do rozdawania punktów
+    1 - zmień imię postaci
+    """
+    )
+
+    choice2 = input("Wybierasz: ")
+    print()
+    
+    if choice2 == "0":
+        print("Rozpoczynamy proces przydzielania punktów")
+        
+    elif choice2 == "1":
+        name = input("Wybierz nazwę dla swojej postaci: ")
+
+
+
+while choice != "0":
+
+    print(
+    """
+    \n\t Masz w tym momencie do podziału""", pkt, "punktów",
+    "\n\n\tSIŁA : ", sila,
+    "\n\n\tZDROWIE : ", zdrowie,
+    "\n\n\tMĄDROŚĆ : ", madrosc,
+    "\n\n\tZRĘCZNOŚĆ : ", zrecznosc,
+
+    """\n\n\n
+       0 - zakończ kreator
+       1 - dodaj/zmniejsz punkty SIŁY
+       2 - dodaj/zmniejsz punkty ZDROWIA
+       3 - dodaj/zmniejsz punkty MĄDROŚCI
+       4 - dodaj/zmniejsz punkty ZRĘCZNOŚCI
+    """
+    )
+
+    choice = input("Wybierasz: ")
+    print()
+
+    #zakończ
+    if choice == "0":
+        print("To koniec Twojego dzieła.")
+        
+    elif choice == "1":
+        print("Masz w tym momencie", pkt, "punktów do podziału")
+        nasil = int(input("Na siłę przeznaczasz: "))
+        pkt -= nasil
+        sila += nasil
+        if pkt > 30:
+            print("Liczba punktów nie może przekreczyć 30 punktów!!!")
+            pkt -= nasil
+            sila -= nasil
+        elif pkt < 0:
+            print("Nie możesz posiadać ujemnej ilości punktów!!!")
+            pkt += nasil
+            sila -= nasil
+        print("\nPosiadasz teraz: ", pkt, "punktów")
+        
+    elif choice == "2":
+        print("Masz w tym momencie", pkt, "punktów do podziału")
+        nazdr = int(input("Na zdrowie przeznaczasz: "))
+        pkt -= nazdr
+        zdrowie += nazdr
+        if pkt > 30:
+            print("Liczba punktów nie może przekreczyć 30 punktów!!!")
+            pkt -= nazdr
+            zdrowie -= nazdr
+        elif pkt < 0:
+            print("Nie możesz posiadać ujemnej ilości punktów!!!")
+            pkt -= nazdr
+            zdrowie -= nazdr
+        print("\nPosiadasz teraz: ", pkt, "punktów")
+
+    elif choice == "3":
+        print("Masz w tym momencie", pkt, "punktów do podziału")
+        namad = int(input("Na mądrość przeznaczasz: "))
+        pkt -= namad
+        madrosc += namad
+        if pkt > 30:
+            print("Liczba punktów nie może przekreczyć 30 punktów!!!")
+            pkt -= namad
+            madrosc -= namad
+        elif pkt < 0:
+            print("Nie możesz posiadać ujemnej ilości punktów!!!")
+            pkt -= namad
+            madrosc -= namad
+        print("\nPosiadasz teraz: ", pkt, "punktów")
+
+    elif choice == "4":
+        print("Masz w tym momencie", pkt, "punktów do podziału")
+        nazre = int(input("Na zręczność przeznaczasz: "))
+        pkt -= nazre
+        zrecznosc += nazre
+        if pkt > 30:
+            print("Liczba punktów nie może przekreczyć 30 punktów!!!")
+            pkt -= nazre
+            zrecznosc -= nazre
+        elif pkt < 0:
+            print("Nie możesz posiadać ujemnej ilości punktów!!!")
+            pkt -= nazre
+            zrecznosc -= nazre
+        print("\nPosiadasz teraz: ", pkt, "punktów")
+
+
+print("\n\nSkończyłeś tworzyć swoją postać!\n")
+print(name, "posiada następujące parametry:")
+print("\nSIŁA: ", sila)
+print("\nZDROWIE: ", zdrowie)
+print("\nMĄDROŚĆ: ", madrosc)
+print("\nZRĘCZNOŚĆ: ", zrecznosc)
+
+input("\n\n\n\nAby zakończyć program, naciśnij klawisz Enter")
