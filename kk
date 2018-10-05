@@ -101,4 +101,91 @@ def human_move(board, human):
             print("\nTo pole jest już zajęte, niemądry Człowieku. Wybierz inne.\n")
     print("Znakomicie....")
     return move
+
+def computer_move(board, computer, human):
+    """Spowoduj wykonanie ruchu przez komputer."""
+    #utwórz kopię roboczą, ponieważ funkcja będzie zmieniać listę
+    board = board[:]
+
+#najlepsze pozycje do zajęcia według kolejności
+    BEST_MOVES = (4, 0, 2, 6, 8, 1, 3, 5, 7)
+
+    print("Wybieram pole numer", end=" ")
+
+    #jeśli komputer może wygrać, wykonaj ten ruch
+    for move in legal_moves(board):
+        board[move] = computer
+        if winner(board) == computer:
+            print(move)
+            return move
+        #ten ruch zostałsprawdzony, wycofaj go
+        board[move] = EMPTY
+    #jeśli człowiek może wygrać, zablokuj ten ruch
+    for move in legal_moves(board):
+        board [move] = human
+        if winner(board) == human:
+            print(move)
+            return move
+        #ten ruch został sprawdzony, wycofaj go
+        board[move] = EMPTY
+    #ponieważ nikt nie może wygrać w następnym ruchu, wybierz najlepsze wolne pole
+        for move in BEST_MOVES:
+            if move in legal_moves(board):
+                print(move)
+                return move
+
+def next_turn(turn):
+    """Zmień wykonawcę ruchu."""
+    if turn == X:
+        return 0
+    else:
+        return X
+
+def congrat_winner(the_wnner, computer, human):
+    """Pogratuluj zwycięzcy."""
+    if the_winner != TIE:
+        print(the_winner, "jest zwycięzcą!\n")
+    else:
+        print("Remis!\n")
+
+    if the_winner == computer:
+        print("Jak przewidywałem, Człowieku, jeszcze raz zostałem triumafatorem. \n" \
+              "Dowód na to, że komputery przewyższają ludzi pod każdym względem.")
+
+    elif the_winner == human:
+        print("No nie! To niemożliwe! Jakoś ci się udało mnie zwieść, Człowieku, \n" \
+                "Ale to się nidy nie powtórzy! Ja, komputer, przyrzekam Ci to!")
+
+    elif the_winner == TIE:
+        print("Miałeś mnóstwo szczęścia, Człowieku, i jakoś udało Ci się ze mną " \
+              "zremisować. \nŚwiętuj ten dzień... bo to najlepszy wynik, jaki możesz " \
+              "kiedykolwiek osiągnąć.")
+
+def main():
+    display_instruct()
+    computer, human = pieces()
+    turn = X
+    board = new_board()
+    display_board(board)
+
+    while not winner(board):
+        if turn == human:
+            move = human_move(board, human)
+            board[move] = human
+        else:
+            move = computer_move(board, computer, human)
+            board[move] = computer
+            display_board(board)
+            turn = next_turn(turn)
+
+    the_winner = winner(board)
+    congrat_winner(the_winner, computer, human)
+    
+# rozpocznij program
+
+main()
+input("\n\nAby zakończyć grę, naciśnij klawisz Enter.")
+        
+            
+        
     
