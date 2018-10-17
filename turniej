@@ -35,9 +35,15 @@ def next_block(the_file):
     if correct:
         correct = correct[0]
 
+    points = next_line(the_file)
+    
     explanation = next_line(the_file)
 
-    return category, question, answers, correct, explanation
+    return category, question, answers, correct, points, explanation
+
+def licz(licz):
+    pkt = int(input(points))
+    return pkt
 
 def welcome(title):
     """Przywitaj gracza i pobierz jego nazwę"""
@@ -48,10 +54,13 @@ def main():
     trivia_file = open_file("kwiz.txt", "r")
     title = next_line(trivia_file)
     welcome(title)
-    score = 0
+    score = int(0)
+    licz = 0
+    
+    
 
     # pobierz pierwszy blok
-    category, question, answers, correct, explanation = next_block(trivia_file)
+    category, question, answers, correct, points, explanation = next_block(trivia_file)
     while category:
         #zadaj pytanie
         print(category)
@@ -63,15 +72,16 @@ def main():
 
     # sprawdź odpowiedź
         if answer == correct:
-            print("\nOdpowiedź prawidłowa!", end=" ")
-            score += 1
+            print("\nOdpowiedź prawidłowa!")
+            score += int(points)
+            print("Ilość zdobytych punktów za to zadanie:", points)
         else:
             print("\nOdpowiedź niestety niepoprawna.", end=" ")
         print(explanation)
         print("Wynik:", score, "\n\n")
 
     # pobierz kolejny blok
-        category, question, answers, correct, explanation = next_block(trivia_file)
+        category, question, answers, correct, points, explanation = next_block(trivia_file)
 
     trivia_file.close()
 
