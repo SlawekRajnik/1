@@ -41,16 +41,37 @@ def next_block(the_file):
 
     return category, question, answers, correct, points, explanation
 
-def licz(licz):
-    pkt = int(input(points))
-    return pkt
+def gracz(pytanie):
+    gracz = input(pytanie)
 
 def welcome(title):
     """Przywitaj gracza i pobierz jego nazwę"""
-    print("\t\tWitaj w turnieju wiedzy !\n")
+    print("\t\t\n\nWitaj w turnieju wiedzy !\n")
     print("\t\t", title, "\n")
 
+
+# sprawdzenie wyniku
+def lista(gracz, wynik):
+    import pickle, shelve
+    f = open("lista.dat", "ab+")
+    lista = []
+    
+    name = input(gracz)
+    bestscore = input(score)
+    entry = (bestscore, name)
+    lista.append(entry)
+    lista.sort(reverse=True)
+    lista = lista[:3] #tylko 3 wyniki
+
+    pickle.dump(lista, f)
+
+    print(lista)
+
+    f.close()
+    
+
 def main():
+    gracz("Witaj, jak masz na imię?: ")
     trivia_file = open_file("kwiz.txt", "r")
     title = next_line(trivia_file)
     welcome(title)
@@ -83,10 +104,13 @@ def main():
     # pobierz kolejny blok
         category, question, answers, correct, points, explanation = next_block(trivia_file)
 
+    
     trivia_file.close()
 
     print("To było ostatnie pytanie!")
     print("Twój końcowy wynik wynosi", score)
+    
+    
 
 main()
 
