@@ -3,6 +3,8 @@
 
 import sys
 
+import pickle, shelve
+
 def open_file(file_name, mode):
     """Otwórz plik"""
     try:
@@ -50,11 +52,28 @@ def welcome(title):
     print("\t\t", title, "\n")
 
 
-# sprawdzenie wyniku
-def lista(gracz, wynik):
-    import pickle, shelve
-    f = open("lista.dat", "ab+")
+# tworzenie/sprawdzanie pliku
+def open_file(file_name, mode):
+    """Otwórz plik."""
+    try:
+        the_file = open(file_name, mode)
+    except IOError as e:
+        print("Nie można otworzyć pliku", file_name, "Program zostanie zakończony.\n",
+              e)
+        input("\nAby koniec, to Enter.")
+        sys.exit()
+    else:
+        return the_file
+
+    
+# testowe
+f = open("lista.dat", "ab+")
     lista = []
+
+
+
+# sprawdzenie wyniku
+def lista(gracz, score):
     
     name = input(gracz)
     bestscore = input(score)
