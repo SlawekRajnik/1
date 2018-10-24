@@ -1,0 +1,132 @@
+# turniej wiedzy
+# gra sprawdza wiedzę // odczyt ze zwykłego pliku tekstowego
+
+import sys
+
+import pickle, shelve
+
+def open_file(file_name, mode):
+    """Otwórz plik"""
+    try:
+        the_file = open(file_name, mode)
+    except IOError as e:
+        print("Nie można otworzyć pliku", file_name, "Program zostanie zakończony.\n",
+              e)
+        input("\n\nAby zakończyć program - Enter")
+        sys.exit()
+    else:
+        return the_file
+
+def next_line(the_file):
+    """Zwróć kolejny wiersz pliku kwiz po sformatowaniu go."""
+    line = the_file.readline()
+    line = line.replace("/", "\n")
+    return line
+
+def next_block(the_file):
+    """Zwróć kolejny blok danych z pliku kwiz"""
+    category = next_line(the_file)
+
+    question = next_line(the_file)
+
+    answers = []
+    for i in range(4):
+        answers.append(next_line(the_file))
+
+    correct = next_line(the_file)
+    if correct:
+        correct = correct[0]
+
+    points = next_line(the_file)
+    
+    explanation = next_line(the_file)
+
+    return category, question, answers, correct, points, explanation
+
+def gracz(pytanie):
+    gracz = input(pytanie)
+
+def welcome(title):
+    """Przywitaj gracza i pobierz jego nazwę"""
+    print("\t\t\n\nWitaj w turnieju wiedzy !\n")
+    print("\t\t", title, "\n")
+
+
+# tworzenie/sprawdzanie pliku
+def open_plik(plik, mode):
+    """Otwórz plik."""
+    try:
+        lista = open(plik, mode)
+    except IOError as e:
+        print("Nie można otworzyć pliku", plik, "Program zostanie zakończony.\n",
+              e)
+        input("\nAby koniec, to Enter.")
+        sys.exit()
+    else:
+        return lista
+
+    
+# testowe
+
+# sprawdzenie wyniku
+def wyniki(gracz, score):
+    wyniki = open_plik("lista.dat", "ab+")
+    najwyniki = []
+    name = input(gracz)
+    bestscore = input(score)
+    entry = (bestscore, name)
+    najwyniki.append(entry)
+    najwyniki.sort(reverse=True)
+    najwyniki = najwyniki[:3] #tylko 3 wyniki
+
+    pickle.dump(najwyniki, wyniki)
+
+    wyniki.close()
+    
+
+def main():
+    gracz("Witaj, jak masz na imię?: ")
+    trivia_file = open_file("kwiz.txt", "r")
+    title = next_line(trivia_file)
+    welcome(title)
+    score = int(0)
+    licz = 0
+    
+    
+
+    # pobierz pierwszy blok
+    category, question, answers, correct, points, explanation = next_block(trivia_file)
+    while category:
+        #zadaj pytanie
+        print(category)
+        print(question)
+        for i in range(4):
+            print("\t", i + 1, "-", answers[i])
+        #uzyskaj odopwiedź
+        answer = input("Jaka jest Twoja odpowiedź?: ")
+
+    # sprawdź odpowiedź
+        if answer == correct:
+            print("\nOdpowiedź prawidłowa!")
+            score += int(points)
+            print("Ilość zdobytych punktów za to zadanie:", points)
+        else:
+            print("\nOdpowiedź niestety niepoprawna.", end=" ")
+        print(explanation)
+        print("Wynik:", score, "\n\n")
+
+    # pobierz kolejny blok
+        category, question, answers, correct, points, explanation = next_block(trivia_file)
+
+    wyniki(gracz, score) 
+    trivia_file.close()
+
+    print("To było ostatnie pytanie!")
+    print("Twój końcowy wynik wynosi", score)
+    
+    
+    
+
+main()
+
+input("\n\nAby zakończyć, to Enter")
