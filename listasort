@@ -1,0 +1,82 @@
+# zamarynuj
+
+
+
+    #print("Marynowanie")
+
+    #listawynik = []
+    #name = input("imię")
+    #bestscore = input("wynik")
+    #entry = (bestscore, name)
+    #listawynik.append(entry)
+    #listawynik.sort(reverse=True)
+    #listawynik = listawynik[:3]
+
+    #f = open("pikle1.dat", "wb")
+
+    #pickle.dump(listawynik, f)
+
+    #print(listawynik)
+
+
+# lista wyniki
+
+import pickle, shelve
+
+scores = [0, 0, 0]
+
+choice = None
+
+while choice != "0":
+
+    print(
+        """
+         Najwyniki
+
+         0-zakończ
+         1-pokaż wyniki
+         2-dodaj wyniki
+         3-usuń wyniki
+         """
+        )
+    choice = input("wybiera: ")
+    print()
+
+    if choice == "0":
+        print("Do widzenia")
+    elif choice == "1":
+        print("najwyniki")
+        for score in scores:
+            print(score)
+    elif choice == "2":
+        score = int(input("jaki wynik uzyskałeś: "))
+        if score > scores[0]:
+            scores[0] = score
+        elif score > scores[1]:
+            scores[1] = score
+        elif score > scores[2]:
+            scores[2] = score
+        scores = scores[:3]
+    elif choice == "3":
+        score = int(input("który wynik usunąć: "))
+        if score in scores:
+            scores.remove(score)
+        else:
+            print(score, "nie ma na liście")
+    elif choice == "4":
+        scores.sort(reverse=True)
+    else:
+        print("niestety", choice, "to jest zły wybór")
+
+f = open("pikle1.dat", "wb")
+
+pickle.dump(scores, f)
+
+print(scores)
+
+input("koniec")
+            
+            
+
+
+input("koniec")
