@@ -23,7 +23,17 @@
 
 import pickle, shelve
 
-scores = [0, 0, 0]
+scores = []
+
+print("dotychczasowa lista:")
+
+f = open("pikle1.dat", "ab")
+
+scores = pickle.load(f)
+
+print(scores)
+
+input("przejdź dalej")
 
 choice = None
 
@@ -46,16 +56,15 @@ while choice != "0":
         print("Do widzenia")
     elif choice == "1":
         print("najwyniki")
-        for score in scores:
-            print(score)
+        for entry in scores:
+            score, imię = entry
+            print(imię, score)
     elif choice == "2":
+        imię = input("imię: ")
         score = int(input("jaki wynik uzyskałeś: "))
-        if score > scores[0]:
-            scores[0] = score
-        elif score > scores[1]:
-            scores[1] = score
-        elif score > scores[2]:
-            scores[2] = score
+        entry = (score, imię)
+        scores.append(entry)
+        scores.sort(reverse=True)
         scores = scores[:3]
     elif choice == "3":
         score = int(input("który wynik usunąć: "))
@@ -64,13 +73,14 @@ while choice != "0":
         else:
             print(score, "nie ma na liście")
     elif choice == "4":
-        scores.sort(reverse=True)
+        scores.sort(reverse=False)
     else:
         print("niestety", choice, "to jest zły wybór")
 
 f = open("pikle1.dat", "wb")
 
 pickle.dump(scores, f)
+f.close()
 
 print(scores)
 
