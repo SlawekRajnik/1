@@ -1,9 +1,7 @@
 # turniej wiedzy
 # gra sprawdza wiedzę // odczyt ze zwykłego pliku tekstowego
 
-import sys
-
-import pickle, shelve
+import sys, pickle
 
 def open_file(file_name, mode):
     """Otwórz plik"""
@@ -44,6 +42,7 @@ def next_block(the_file):
     return category, question, answers, correct, points, explanation
 
 def gracz(pytanie):
+    global gracz
     gracz = input(pytanie)
 
 def welcome(title):
@@ -51,49 +50,24 @@ def welcome(title):
     print("\t\t\n\nWitaj w turnieju wiedzy !\n")
     print("\t\t", title, "\n")
 
-
-# tworzenie/sprawdzanie pliku
-def open_plik(plik, mode):
-    """Otwórz plik."""
-    try:
-        lista = open(plik, mode)
-    except IOError as e:
-        print("Nie można otworzyć pliku", plik, "Program zostanie zakończony.\n",
-              e)
-        input("\nAby koniec, to Enter.")
-        sys.exit()
-    else:
-        return lista
-
-    
-# testowe
-
-# sprawdzenie wyniku
-def wyniki(gracz, score):
-    wyniki = open_plik("lista.dat", "ab+")
-    najwyniki = []
-    name = input(gracz)
-    bestscore = input(score)
-    entry = (bestscore, name)
-    najwyniki.append(entry)
-    najwyniki.sort(reverse=True)
-    najwyniki = najwyniki[:3] #tylko 3 wyniki
-
-    pickle.dump(najwyniki, wyniki)
-
-    wyniki.close()
-    
-
 def main():
-    gracz("Witaj, jak masz na imię?: ")
+    f = open("listaturniej1.dat", "rb+")
+
+    #wyjątek
+    try:
+        scores = pickle.load(f)
+    except EOFError:
+        scores = []
+
+    print("\nLISTA NAJLEPSZYCH WYNIKÓW:")
+    print(scores)
+    
+    gracz("\n\nWitaj, jak masz na imię?: ")
     trivia_file = open_file("kwiz.txt", "r")
     title = next_line(trivia_file)
     welcome(title)
     score = int(0)
-    licz = 0
     
-    
-
     # pobierz pierwszy blok
     category, question, answers, correct, points, explanation = next_block(trivia_file)
     while category:
@@ -118,14 +92,27 @@ def main():
     # pobierz kolejny blok
         category, question, answers, correct, points, explanation = next_block(trivia_file)
 
-    wyniki(gracz, score) 
+    
     trivia_file.close()
 
     print("To było ostatnie pytanie!")
     print("Twój końcowy wynik wynosi", score)
-    
-    
-    
+
+    #dodaj wyniki do listy
+    entry = (score, gracz)
+    scores.append(entry)
+    scores.sort(reverse=True)
+    scores = scores[:3]
+    pickle.dump(scores, f)
+    print("\nLISTA NAJLEPSZYCH WYNIKÓW:")
+    print(scores)
+    f.close()
+    #zapisz do pliku
+    f = open("listaturniej1.dat", "wb")
+    pickle.dump(scores, f)
+    print("lista po zapisaniu")
+    print(scores)
+    f.close()
 
 main()
 
