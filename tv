@@ -1,0 +1,41 @@
+# program na zaliczenie
+# wirtualny telewizor
+
+class Tv(object):
+    """wirtualny telewizor"""
+    def __init__(self, tvchannel, volume, opis):
+        self.tvchannel = tvchannel
+        self.volume = volume
+        print("Telewizor został włączony")
+
+    def status(self):
+        print("\nAktualny program to: ", self.tvchannel)
+        print("\nAktualny poziom dźwięku to: ", self.volume)
+
+    def tvchannel(self):
+        print("Masz do wyboru 4 programy\n")
+        channel = input("Wybierz kanał: ")
+        while channel > 4 or channel < 1:
+            print("\nBłąd!\n")
+            input("Wybierz kanał: ")
+        else:
+            print("Kanał", channel)
+            self.tvchannel = channel
+            print("\nOpis:", self.opis)
+
+    def opis(self):
+        choice = self.tvchannel
+        if choice == 1:
+            print("\nTefałpe jeden: opisujemy rzeczywistość taką jaka jest!")
+        elif choice == 2:
+            print("\nTefałpe dwa: programy o zwierzaczkach, kulinarne i inne")
+        elif choice == 3:
+            print("\nTelewizja regionalna: nudne programy o niczym")
+        elif choice == 4:
+            print("\nPolsat: kup paszport, perpewju, pełno reklam")
+        else:
+            print("gdzieś ty zabrnął, jakiś potężny błąd")
+
+def main():
+    tv_on = Tv(object)
+    
