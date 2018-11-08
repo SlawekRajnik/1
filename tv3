@@ -1,0 +1,83 @@
+# program na zaliczenie
+# wirtualny telewizor
+
+class Tv(object):
+    """wirtualny telewizor"""
+    def __init__(self, channel = 1, volume = 39):
+        self.channel = channel
+        self.volume = volume
+        print("Włączasz telewizor i wybierasz...")
+
+    def tvchannel(self):
+        choice = int(input("Jaki program: "))
+        self.channel = choice
+        if choice == 1:
+            print("\nTefałpe jeden: opisujemy rzeczywistość taką jaka jest!")
+            print("\nVolume: ", self.volume)
+        elif choice == 2:
+            print("\nTefałpe dwa: programy o zwierzaczkach, kulinarne i inne")
+            print("\nVolume: ", self.volume)
+        elif choice == 3:
+            print("\nTelewizja regionalna: nudne programy o niczym")
+            print("\nVolume: ", self.volume)
+        elif choice == 4:
+            print("\nPolsat: kup paszport, perpewju, pełno reklam")
+            print("\nVolume: ", self.volume)
+        elif choice == 0:
+            self.__status
+        else:
+            print("SZUMUUUSZUMMSZUMSMZMSZMSZM")
+
+    def tvvolume(self):
+        choice = int(input("1- podgłośń, 2 - ścisz"))
+        if self.volume < 40 and self.volume < 0:
+            if choice == 1:
+                self.volume += 1
+                print("program", self.channel)
+                print("\nVolume: ", self.volume)
+            elif choice == 2:
+                self.volume -= 1
+                print(self.channel)
+                print("\nVolume: ", self.volume)
+            else:
+                print("NIE, to błąd")
+        elif self.volume > 40:
+            print("GŁOŚNIEJ NIE BĘDZIE GŁUCHOLCU")
+        elif self.volume < 0:
+            print("Z czego jeszcze chcesz ściszyć?")
+
+        
+def main():
+    tv_on = Tv()
+
+    choice = None
+    while choice != "0":
+        print("""
+             Wirtualny Telewizor!
+
+            0 - wyłącz telewizor
+            1 - wybierz program (masz do dyspozycji 4 kanały)
+            2 - zmniejsz/zwiększ głośność (1-40)
+            3 - info
+            """)
+
+        choice = input("Wybierasz: ")
+        print()
+
+        if choice == "0":
+            print("Wyłączam! PSTRYK!")
+        elif choice == "1":
+            tv_on.tvchannel()
+        elif choice == "2":
+            tv_on.tvvolume()
+        elif choice == "3":
+            tv_on.info()
+        else:
+            print("\nNie masz takiego przycisku")
+        
+
+    
+#main
+main()
+
+input("koniec")
