@@ -169,12 +169,17 @@ class Ship(Collider):
             #nowy pocisk
             #wywołanie klasy Missilie z parametrami
             new_missile = Missile(self.x, self.y, self.angle)
-            games.screen.add(new_missile)        
+            #dodaj obiekt klasy missilie do ekranu
+            games.screen.add(new_missile)
+            #ustaw zmienną self.missilie_wait
             self.missile_wait = Ship.MISSILE_DELAY
 
+    #metoda die 
     def die(self):
         """ Zniszcz statek i zakończ grę. """
+        #game.end z modułu livewires
         self.game.end()
+        #przekazanie metody do nadklasy -> Collider -> Wrapper
         super(Ship, self).die()
 
 
@@ -187,11 +192,15 @@ class Missile(Collider):
     sound = games.load_sound("pocisk.wav")
     #odległość pocisku od statku
     BUFFER = 40
+    #szybkość lotu pocisku
     VELOCITY_FACTOR = 7
+    #długość czasu istnienia pocisku
     LIFETIME = 40
 
+    #konstruktor
     def __init__(self, ship_x, ship_y, ship_angle):
         """ Inicjalizuj duszka pocisku. """
+        #dźwięk
         Missile.sound.play()
         
         # zamień na radiany
@@ -208,24 +217,31 @@ class Missile(Collider):
         dy = Missile.VELOCITY_FACTOR * -math.cos(angle)
 
         # utwórz pocisk
+        #konstruktor z klasy Collider -> Wrapper
         super(Missile, self).__init__(image = Missile.image,
                                       x = x, y = y,
                                       dx = dx, dy = dy)
+        #czas istnienia pocisku
         self.lifetime = Missile.LIFETIME
 
     def update(self):
         """ Obsługuj ruch pocisku. """
+        #update z nadklasy Collider -> Wrapper
         super(Missile, self).update()
         
-        # zniszcz pocisk, jeśli wyczerpał się jego czas życia   
+        # zniszcz pocisk, jeśli wyczerpał się jego czas życia
+        #odliczanie do końca pocisku
         self.lifetime -= 1
         if self.lifetime == 0:
+            #metoda self.destroy z livewires
             self.destroy()
 
-
+#klasa explosion z nadklasą Animation z modułu games
 class Explosion(games.Animation):
     """ Animacja eksplozji. """
+    #dźwięk
     sound = games.load_sound("chuj.wav")
+    #lista obrazków eksplozji
     images = ["eksplozja1.bmp",
               "eksplozja2.bmp",
               "eksplozja3.bmp",
@@ -236,7 +252,9 @@ class Explosion(games.Animation):
               "eksplozja8.bmp",
               "eksplozja9.bmp"]
 
+    #konstruktor
     def __init__(self, x, y):
+        #konstruktor z games.Animation
         super(Explosion, self).__init__(images = Explosion.images,
                                         x = x, y = y,
                                         repeat_interval = 4, n_repeats = 1,
